@@ -1,0 +1,19 @@
+<%- include('../partials/header') %>
+        <table>
+            <tr>
+                <th>Airline</th>
+                <th>Airport</th>
+                <th>Flight No.</th>
+                <th>Depart Date</th>
+            </tr>
+            <% flights.forEach(function(f){ %>
+                <tr>
+                    <td><%= f.airline %></td>
+                    <td><%= f.airport %></td>
+                    <td><%= f.flightNo %></td>
+                    <td class="<%= f.departs < today ? 'red' : '' %>"><%=  new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'long', day: '2-digit'}).format(f.departs) %></td>
+                    <td><a href="/flights/<%= f._id %>">Flight Details</a></td>
+                </tr>
+            <% }) %>
+        </table>
+<%- include('../partials/footer') %>

@@ -1,0 +1,46 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding:10px;
+}
+
+h3 {
+  margin-bottom: 5px;
+}
+
+.red {
+  color:red;
+}
+
+.arrivals {
+  margin: 15px 0;
+}
+
+.tickets {
+  display:flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.tickets div {
+  margin-right: 5px;
+}
+
+.remove {
+  padding: 2px;
+  line-height: inherit;
+  font-size: 12px;
+  width: 24px;
+}

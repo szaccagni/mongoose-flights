@@ -1,0 +1,61 @@
+<%- include('../partials/header') %>
+<section>
+    <h3>Departure</h3>
+    <div><b>Airline:</b> <%= flight.airline %> </div>
+    <div><b>Departure Airport:</b> <%= flight.airport %></div>
+    <div><b>Flight Number:</b> <%= flight.flightNo %></div>
+    <div><b>Departure:</b>  <%= new Intl.DateTimeFormat('en-GB', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true, }).format(flight.departs)  %></div>
+</section>
+
+<% if (flight.destinations.length) { %>
+    <% let count = 1 %>
+    <% const destinations = flight.destinations.sort( (a, b) => a.arrival - b.arrival ) %>
+    <% destinations.forEach( function(d) { %>
+        <div class="arrivals">
+            <h3>Arrival <%= count %></h3>
+            <div><b>Arrival Airport:</b> <%= d.airport %></div>
+            <div><b>Arrival:</b>  <%= new Intl.DateTimeFormat('en-GB', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true, }).format(d.arrival)  %></div>
+        </div>
+        <% count += 1 %>
+    <% }) %>
+<% } %>
+
+<br><br>
+<h3>Add A Destination</h3>
+
+<form action="/flights/<%= flight._id %>/destinations" method="POST">
+    <% let airportsUsed = [flight.airport] %>
+    <% if (flight.destinations.length > 0) flight.destinations.forEach(destination => airportsUsed.push(destination.airport)) %>
+    <div>
+        <label for="airport">Airport</label>
+        <select name="airport">
+            <option value="AUS" <%= airportsUsed.includes('AUS') ? 'disabled' : '' %> >AUS</option>
+            <option value="DFW" <%= airportsUsed.includes('DFW') ? 'disabled' : '' %> >DFW</option>
+            <option value="DEN" <%= airportsUsed.includes('DEN') ? 'disabled' : '' %> >DEN</option>
+            <option value="LAX" <%= airportsUsed.includes('LAX') ? 'disabled' : '' %> >LAX</option>
+            <option value="SAN" <%= airportsUsed.includes('SAN') ? 'disabled' : '' %> >SAN</option>
+        </select>
+        <label for="arrival">Departure</label>
+        <input type="datetime-local" name="arrival">
+    </div>
+    <input style="margin-top:15px"type="submit" value="Add Destination">
+</form>
+<br><br>
+<% if (tickets.length) { %>
+<h3>Tickets Sold</h3>
+    <% tickets.forEach(function(t) { %>
+        <div class="tickets">
+            <div><%= t.seat %>, price: <%= t.price %> </div>
+            <form action="/tickets/<%= t._id %>?_method=DELETE" method="POST">
+                <button class="remove">X</button>
+            </form>
+        </div>
+    <% }) %>
+<% } else { %>
+<h3>No Tickets Yet</h3>
+<% } %> 
+<br>
+<a href="/flights/<%= flight._id %>/tickets/new"><button>New Ticket</button></a>
+
+<%- include('../partials/footer') %>
+
